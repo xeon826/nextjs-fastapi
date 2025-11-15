@@ -14,7 +14,8 @@
     "python-update": "poetry update",
     "migrate": "poetry run alembic upgrade head",
     "migrate-create": "poetry run alembic revision --autogenerate -m",
-    "migrate-downgrade": "poetry run alembic downgrade -1"
+    "migrate-downgrade": "poetry run alembic downgrade -1",
+    "stop-backend": "pkill -f \"uvicorn api.index:app\" || true"
   },
   "dependencies": {
     "@types/node": "^22.10.5",
