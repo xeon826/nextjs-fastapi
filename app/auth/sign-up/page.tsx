@@ -11,7 +11,7 @@ export default function SignUpPage() {
           <p className="mt-2 text-gray-600">Create your account to get started</p>
         </div>
         <AuthView
-          view="signUp"
+          path="sign-up"
           localization={{
             SIGN_IN: "Sign In",
             SIGN_UP: "Sign Up",
