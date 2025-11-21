@@ -10,13 +10,15 @@ export default function SignUpPage() {
           <h1 className="text-3xl font-bold">Sign Up</h1>
           <p className="mt-2 text-gray-600">Create your account to get started</p>
         </div>
-        <AuthView
-          path="sign-up"
-          localization={{
-            SIGN_IN: "Sign In",
-            SIGN_UP: "Sign Up",
-          }}
-        />
+        <div className="better-auth-ui">
+          <AuthView
+            path="sign-up"
+            localization={{
+              SIGN_IN: "Sign In",
+              SIGN_UP: "Sign Up",
+            }}
+          />
+        </div>
       </div>
     </div>
   );

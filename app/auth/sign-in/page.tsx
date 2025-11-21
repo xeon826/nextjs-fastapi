@@ -10,13 +10,15 @@ export default function SignInPage() {
           <h1 className="text-3xl font-bold">Sign In</h1>
           <p className="mt-2 text-gray-600">Welcome back to your account</p>
         </div>
-        <AuthView
-          path="sign-in"
-          localization={{
-            SIGN_IN: "Sign In",
-            SIGN_UP: "Sign Up",
-          }}
-        />
+        <div className="better-auth-ui">
+          <AuthView
+            path="sign-in"
+            localization={{
+              SIGN_IN: "Sign In",
+              SIGN_UP: "Sign Up",
+            }}
+          />
+        </div>
       </div>
     </div>
   );
