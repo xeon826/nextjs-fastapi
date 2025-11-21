@@ -4,6 +4,7 @@ from typing import List
 
 from .database import get_session, create_db_and_tables
 from .models import User, UserCreate, UserRead, Message, MessageCreate, MessageRead
+from .auth import require_auth, BetterAuthUser
 
 ### Create FastAPI instance with custom docs and openapi url
 app = FastAPI(
@@ -35,8 +36,12 @@ def health_check():
 
 # User endpoints
 @app.post("/api/py/users", response_model=UserRead)
-def create_user(user: UserCreate, session: Session = Depends(get_session)):
-    """Create a new user"""
+def create_user(
+    user: UserCreate,
+    session: Session = Depends(get_session),
+    current_user: BetterAuthUser = Depends(require_auth)
+):
+    """Create a new user (requires authentication)"""
     db_user = User.model_validate(user)
     session.add(db_user)
     session.commit()
@@ -48,16 +53,21 @@ def create_user(user: UserCreate, session: Session = Depends(get_session)):
 def read_users(
     skip: int = 0,
     limit: int = 100,
-    session: Session = Depends(get_session)
+    session: Session = Depends(get_session),
+    current_user: BetterAuthUser = Depends(require_auth)
 ):
-    """Get all users with pagination"""
+    """Get all users with pagination (requires authentication)"""
     users = session.exec(select(User).offset(skip).limit(limit)).all()
     return users
 
 
 @app.get("/api/py/users/{user_id}", response_model=UserRead)
-def read_user(user_id: int, session: Session = Depends(get_session)):
-    """Get a specific user by ID"""
+def read_user(
+    user_id: int,
+    session: Session = Depends(get_session),
+    current_user: BetterAuthUser = Depends(require_auth)
+):
+    """Get a specific user by ID (requires authentication)"""
     user = session.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -68,9 +78,10 @@ def read_user(user_id: int, session: Session = Depends(get_session)):
 @app.post("/api/py/messages", response_model=MessageRead)
 def create_message(
     message: MessageCreate,
-    session: Session = Depends(get_session)
+    session: Session = Depends(get_session),
+    current_user: BetterAuthUser = Depends(require_auth)
 ):
-    """Create a new message"""
+    """Create a new message (requires authentication)"""
     # Check if user exists
     user = session.get(User, message.user_id)
     if not user:
@@ -87,16 +98,21 @@ def create_message(
 def read_messages(
     skip: int = 0,
     limit: int = 100,
-    session: Session = Depends(get_session)
+    session: Session = Depends(get_session),
+    current_user: BetterAuthUser = Depends(require_auth)
 ):
-    """Get all messages with pagination"""
+    """Get all messages with pagination (requires authentication)"""
     messages = session.exec(select(Message).offset(skip).limit(limit)).all()
     return messages
 
 
 @app.get("/api/py/messages/{message_id}", response_model=MessageRead)
-def read_message(message_id: int, session: Session = Depends(get_session)):
-    """Get a specific message by ID"""
+def read_message(
+    message_id: int,
+    session: Session = Depends(get_session),
+    current_user: BetterAuthUser = Depends(require_auth)
+):
+    """Get a specific message by ID (requires authentication)"""
     message = session.get(Message, message_id)
     if not message:
         raise HTTPException(status_code=404, detail="Message not found")

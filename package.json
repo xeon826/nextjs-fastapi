@@ -13,12 +13,14 @@
     "python-install": "poetry install",
     "python-update": "poetry update",
     "migrate": "poetry run alembic upgrade head",
-    "migrate-create": "poetry run alembic revision --autogenerate -m",
+    "_comment": "Example usage: npm run migrate-create -- \"initial tables\"",
+    "migrate-create": "poetry run alembic revision --autogenerate -m", 
     "migrate-downgrade": "poetry run alembic downgrade -1",
     "stop-backend": "pkill -f \"uvicorn api.index:app\" || true"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.35.1",
+    "better-auth": "^1.3.34",
+    "@daveyplate/better-auth-ui": "^3.2.10",
     "@types/node": "^22.10.5",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",

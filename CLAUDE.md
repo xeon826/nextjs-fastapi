@@ -1,0 +1,1 @@
+- i have the front and back end server running on ports 3000 and 8000 respectively
